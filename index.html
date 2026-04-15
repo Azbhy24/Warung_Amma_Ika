@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kasir Warung Sembako</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="top-bar">
+      <div class="brand">
+        <div class="brand-icon">K</div>
+        <div>
+          <h1>Kasir Sembako</h1>
+          <p>Versi mobile: cepat, ringkas, dan nyaman dipakai.</p>
+        </div>
+      </div>
+      <div class="status-chip">Ready</div>
+    </div>
+
+    <div class="hero-card">
+      <strong>Jual sembako tanpa ribet.</strong>
+      <span>Masukkan barang, pilih dari kasir, lalu bayar. Semuanya terlihat jelas di layar HP.</span>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-button active" data-tab="products">Produk</button>
+      <button class="tab-button" data-tab="kasir">Kasir</button>
+      <button class="tab-button" data-tab="history">Riwayat</button>
+    </div>
+
+    <section class="card tab-panel active" id="tab-products">
+      <div class="tab-header-row">
+        <div>
+          <h2>Tambah Barang</h2>
+          <p class="tab-description">Tambah barang baru, atau pilih barang dari katalog di bawah.</p>
+        </div>
+      </div>
+      <form id="product-form">
+        <div class="field-group">
+          <label>Nama Barang</label>
+          <input type="text" id="product-name" required />
+        </div>
+        <div class="field-group">
+          <label>Harga (Rp)</label>
+          <input type="number" id="product-price" min="0" value="0" required />
+        </div>
+        <div class="field-group">
+          <label>Stok</label>
+          <input type="number" id="product-stock" min="0" value="1" required />
+        </div>
+        <button type="submit">Simpan Barang</button>
+      </form>
+
+      <div class="search-group">
+        <input type="search" id="product-search" placeholder="Cari barang, misal beras atau minyak" />
+      </div>
+
+      <div class="category-row" id="category-filters"></div>
+
+      <div class="product-list" id="product-list"></div>
+    </section>
+
+    <section class="card tab-panel" id="tab-kasir">
+      <h2>Kasir</h2>
+      <form id="cart-form">
+        <div class="field-group">
+          <label>Pilih Barang</label>
+          <select id="cart-product"></select>
+        </div>
+        <div class="field-group">
+          <label>Jumlah</label>
+          <input type="number" id="cart-quantity" min="1" value="1" required />
+        </div>
+        <button type="submit">Tambah ke Keranjang</button>
+      </form>
+
+      <div class="tab-subtitle">Pilih cepat dari katalog di bawah</div>
+      <div id="kasir-quick-list" class="product-list compact"></div>
+
+      <div class="divider"></div>
+      <div id="cart" class="table"></div>
+      <div class="summary">
+        <span>Total:</span>
+        <strong id="total-price">Rp 0</strong>
+      </div>
+      <button id="checkout-button" class="primary">Bayar</button>
+    </section>
+
+    <section class="card tab-panel" id="tab-history">
+      <h2>Riwayat Transaksi</h2>
+      <div id="history-list" class="table"></div>
+    </section>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
