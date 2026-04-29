@@ -1,782 +1,406 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kasir Warung Sembako</title>
-  <style>
-:root {
-  box-sizing: border-box;
-  font-family: 'Inter', system-ui, sans-serif;
-  color: #0f172a;
-  background: linear-gradient(180deg, #fdf9ff 0%, #eef2ff 100%);
-}
-*, *::before, *::after {
-  box-sizing: inherit;
-}
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: transparent;
-}
-.app-shell {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 18px 16px 26px;
-}
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.top-bar .brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.top-bar .brand-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 16px;
-  background: #7c3aed;
-  display: grid;
-  place-items: center;
-  color: white;
-  font-weight: 800;
-  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.16);
-}
-.status-chip {
-  padding: 10px 14px;
-  border-radius: 999px;
-  background: rgba(16, 185, 129, 0.12);
-  color: #047857;
-  font-weight: 700;
-  font-size: 0.85rem;
-}
-.top-bar h1 {
-  margin: 0;
-  font-size: 1.4rem;
-}
-.top-bar p {
-  margin: 4px 0 0;
-  color: #475569;
-  font-size: 0.94rem;
-}
-.hero-card {
-  border-radius: 28px;
-  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-  color: white;
-  padding: 20px;
-  box-shadow: 0 18px 40px rgba(99, 102, 241, 0.18);
-  margin-bottom: 18px;
-}
-.hero-card strong {
-  display: block;
-  font-size: 1.05rem;
-  margin-bottom: 8px;
-}
-.hero-card span {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.94rem;
-}
-.tab-nav {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 18px;
-}
-.tab-button {
-  border: none;
-  border-radius: 16px;
-  padding: 12px 0;
-  background: #eef2ff;
-  color: #334155;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-.tab-button.active {
-  background: #7c3aed;
-  color: white;
-  box-shadow: 0 12px 24px rgba(124, 58, 237, 0.18);
-}
-.tab-button:hover {
-  transform: translateY(-1px);
-}
-.tab-panel {
-  display: none;
-}
-.tab-panel.active {
-  display: block;
-}
-.tab-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.tab-description {
-  margin: 6px 0 0;
-  color: #475569;
-  font-size: 0.95rem;
-}
-.tab-subtitle {
-  color: #475569;
-  font-size: 0.95rem;
-  margin: 16px 0 10px;
-}
-.search-group {
-  margin-top: 14px;
-}
-.search-group input {
-  width: 100%;
-  border: none;
-  border-radius: 18px;
-  padding: 14px 16px;
-  background: #f8fafc;
-  box-shadow: inset 0 2px 6px rgba(15, 23, 42, 0.08);
-}
-.category-row {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 10px 0 0;
-  margin-bottom: 14px;
-}
-.category-chip {
-  flex: 0 0 auto;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid #e2e8f0;
-  background: #ffffff;
-  color: #334155;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-.category-chip.active {
-  background: #7c3aed;
-  color: white;
-  border-color: transparent;
-}
-.product-list {
-  display: grid;
-  gap: 14px;
-}
-.product-list.compact .product-card {
-  grid-template-columns: 50px 1fr auto;
-  padding: 14px;
-}
-.product-card {
-  display: grid;
-  grid-template-columns: 66px 1fr auto;
-  gap: 12px;
-  align-items: center;
-  padding: 16px;
-  border-radius: 24px;
-  background: #ffffff;
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
-}
-.product-icon {
-  width: 58px;
-  height: 58px;
-  border-radius: 18px;
-  display: grid;
-  place-items: center;
-  font-size: 1.8rem;
-  background: linear-gradient(135deg, #e0d7ff, #d8d4ff);
-}
-.product-info {
-  display: grid;
-  gap: 4px;
-}
-.product-name {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 800;
-}
-.product-category {
-  margin: 0;
-  color: #667085;
-  font-size: 0.86rem;
-}
-.product-meta {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  color: #475569;
-  font-size: 0.86rem;
-}
-.product-add {
-  border: none;
-  border-radius: 18px;
-  padding: 12px 13px;
-  background: #0f766e;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  min-width: 92px;
-}
-.product-empty {
-  padding: 18px;
-  border-radius: 24px;
-  background: #f8fafc;
-  color: #475569;
-}
-.divider {
-  height: 1px;
-  background: #e2e8f0;
-  margin: 18px 0;
-}
-.card {
-  background: rgba(255, 255, 255, 0.98);
-  border-radius: 26px;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
-  padding: 20px;
-  margin-bottom: 20px;
-}
-h2 {
-  margin: 0 0 16px;
-  font-size: 1.15rem;
-  color: #111827;
-}
-.field-group {
-  display: grid;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-label {
-  font-weight: 700;
-  color: #334155;
-}
-input,
-select,
-button {
-  width: 100%;
-  font: inherit;
-}
-input,
-select {
-  border: none;
-  border-radius: 18px;
-  padding: 16px 18px;
-  background: #f8fafc;
-  color: #0f172a;
-  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08);
-}
-input:focus,
-select:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
-}
-button {
-  border: none;
-  border-radius: 18px;
-  padding: 16px 18px;
-  background: #7c3aed;
-  color: white;
-  cursor: pointer;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-}
-button:hover {
-  transform: translateY(-1px);
-  opacity: 0.96;
-  box-shadow: 0 15px 30px rgba(124, 58, 237, 0.2);
-}
-button.primary {
-  background: #0f766e;
-}
-button.secondary {
-  background: #334155;
-}
-.table {
-  overflow-x: auto;
-}
-.table table {
-  width: 100%;
-  border-collapse: collapse;
-}
-table th,
-table td {
-  text-align: left;
-  padding: 14px 16px;
-  border-bottom: 1px solid #e2e8f0;
-}
-table th {
-  color: #475569;
-  font-weight: 700;
-}
-table td {
-  color: #0f172a;
-}
-.summary {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 18px;
-  font-size: 1.05rem;
-}
-.summary strong {
-  color: #0f766e;
-}
-.product-empty,
-.cart-empty,
-.history-empty {
-  padding: 18px 14px;
-  border-radius: 18px;
-  background: #f8fafc;
-  color: #475569;
-}
-@media (max-width: 520px) {
-  .app-shell {
-    padding: 16px 14px 22px;
-  }
-  .top-bar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .hero-card {
-    padding: 18px;
-  }
-  h1 {
-    font-size: 1.35rem;
-  }
-  h2 {
-    font-size: 1.1rem;
-  }
-  .field-group {
-    gap: 9px;
-  }
-  button {
-    padding: 15px 18px;
-  }
-  table th,
-  table td {
-    padding: 12px 10px;
-  }
-}
-  </style>
-</head>
-<body>
-  <div class="app-shell">
-    <div class="top-bar">
-      <div class="brand">
-        <div class="brand-icon">K</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Warung Amma Ika</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
         <div>
-          <h1>Kasir Sembako</h1>
-          <p>Versi mobile: cepat, ringkas, dan nyaman dipakai.</p>
+          <p class="eyebrow">Warung keluarga dekat rumah</p>
+          <h1>Warung Amma Ika</h1>
+          <p class="tagline">Belanja seperti biasa, lebih mudah.</p>
         </div>
-      </div>
-      <div class="status-chip">Ready</div>
-    </div>
+        <button class="ghost-btn" data-nav-target="admin">Admin</button>
+      </header>
 
-    <div class="hero-card">
-      <strong>Jual sembako tanpa ribet.</strong>
-      <span>Masukkan barang, pilih dari kasir, lalu bayar. Semuanya terlihat jelas di layar HP.</span>
-    </div>
-
-    <div class="tab-nav">
-      <button class="tab-button active" data-tab="products">Produk</button>
-      <button class="tab-button" data-tab="kasir">Kasir</button>
-      <button class="tab-button" data-tab="history">Riwayat</button>
-    </div>
-
-    <section class="card tab-panel active" id="tab-products">
-      <div class="tab-header-row">
-        <div>
-          <h2>Tambah Barang</h2>
-          <p class="tab-description">Tambah barang baru, atau pilih barang dari katalog di bawah.</p>
-        </div>
-      </div>
-      <form id="product-form">
-        <div class="field-group">
-          <label>Nama Barang</label>
-          <input type="text" id="product-name" required />
-        </div>
-        <div class="field-group">
-          <label>Harga (Rp)</label>
-          <input type="number" id="product-price" min="0" value="0" required />
-        </div>
-        <div class="field-group">
-          <label>Stok</label>
-          <input type="number" id="product-stock" min="0" value="1" required />
-        </div>
-        <button type="submit">Simpan Barang</button>
-      </form>
-
-      <div class="search-group">
-        <input type="search" id="product-search" placeholder="Cari barang, misal beras atau minyak" />
-      </div>
-
-      <div class="category-row" id="category-filters"></div>
-
-      <div class="product-list" id="product-list"></div>
-    </section>
-
-    <section class="card tab-panel" id="tab-kasir">
-      <h2>Kasir</h2>
-      <form id="cart-form">
-        <div class="field-group">
-          <label>Pilih Barang</label>
-          <select id="cart-product"></select>
-        </div>
-        <div class="field-group">
-          <label>Jumlah</label>
-          <input type="number" id="cart-quantity" min="1" value="1" required />
-        </div>
-        <button type="submit">Tambah ke Keranjang</button>
-      </form>
-
-      <div class="tab-subtitle">Pilih cepat dari katalog di bawah</div>
-      <div id="kasir-quick-list" class="product-list compact"></div>
-
-      <div class="divider"></div>
-      <div id="cart" class="table"></div>
-      <div class="summary">
-        <span>Total:</span>
-        <strong id="total-price">Rp 0</strong>
-      </div>
-      <button id="checkout-button" class="primary">Bayar</button>
-    </section>
-
-    <section class="card tab-panel" id="tab-history">
-      <h2>Riwayat Transaksi</h2>
-      <div id="history-list" class="table"></div>
-    </section>
-  </div>
-  <script>
-const productForm = document.getElementById('product-form');
-const productName = document.getElementById('product-name');
-const productPrice = document.getElementById('product-price');
-const productStock = document.getElementById('product-stock');
-const productList = document.getElementById('product-list');
-const cartForm = document.getElementById('cart-form');
-const cartProduct = document.getElementById('cart-product');
-const cartQuantity = document.getElementById('cart-quantity');
-const cartContainer = document.getElementById('cart');
-const kasirQuickList = document.getElementById('kasir-quick-list');
-const totalPriceElement = document.getElementById('total-price');
-const checkoutButton = document.getElementById('checkout-button');
-const historyList = document.getElementById('history-list');
-
-const storageKey = 'kasir-warung-data';
-const defaultProducts = [
-  { name: 'Beras 5kg', category: 'Beras', price: 65000, stock: 10, icon: '🌾' },
-  { name: 'Minyak Goreng 2L', category: 'Minyak', price: 32000, stock: 8, icon: '🛢️' },
-  { name: 'Telur 1kg', category: 'Telur', price: 28000, stock: 12, icon: '🥚' },
-  { name: 'Gula Pasir 1kg', category: 'Gula', price: 15000, stock: 15, icon: '🍚' },
-  { name: 'Sabun Mandi', category: 'Perawatan', price: 12000, stock: 20, icon: '🧼' },
-  { name: 'Roti Tawar 1 Bungkus', category: 'Roti', price: 9000, stock: 14, icon: '🥖' },
-];
-const state = {
-  products: [],
-  cart: [],
-  history: [],
-  categoryFilter: 'Semua',
-  searchQuery: '',
-};
-
-function formatMoney(value) {
-  return `Rp ${value.toLocaleString('id-ID')}`;
-}
-
-function saveState() {
-  localStorage.setItem(storageKey, JSON.stringify(state));
-}
-
-function getIcon(category) {
-  const icons = {
-    Beras: '🌾',
-    Minyak: '🛢️',
-    Telur: '🥚',
-    Gula: '🍚',
-    Perawatan: '🧼',
-    Roti: '🥖',
-    Lainnya: '📦',
-  };
-  return icons[category] || '📦';
-}
-
-function normalizeProducts(products) {
-  return products.map((product) => ({
-    ...product,
-    category: product.category || 'Lainnya',
-    icon: product.icon || getIcon(product.category || 'Lainnya'),
-  }));
-}
-
-function loadState() {
-  const saved = localStorage.getItem(storageKey);
-  if (saved) {
-    const data = JSON.parse(saved);
-    state.products = normalizeProducts(data.products || []);
-    state.cart = data.cart || [];
-    state.history = data.history || [];
-    state.categoryFilter = data.categoryFilter || 'Semua';
-    state.searchQuery = data.searchQuery || '';
-  } else {
-    state.products = normalizeProducts(defaultProducts.slice());
-  }
-}
-
-function renderProducts() {
-  renderCategoryFilters();
-  const filteredList = state.products.filter((product) => {
-    const search = state.searchQuery.toLowerCase();
-    const matchesCategory = state.categoryFilter === 'Semua' || product.category === state.categoryFilter;
-    const matchesSearch = product.name.toLowerCase().includes(search) || product.category.toLowerCase().includes(search);
-    return matchesCategory && matchesSearch;
-  });
-
-  if (filteredList.length === 0) {
-    productList.innerHTML = '<div class="product-empty">Tidak ada barang sesuai filter atau pencarian.</div>';
-  } else {
-    productList.innerHTML = filteredList
-      .map((product) => {
-        const index = state.products.findIndex((item) => item.name === product.name && item.price === product.price && item.category === product.category);
-        return `
-        <div class="product-card">
-          <div class="product-icon">${product.icon}</div>
-          <div class="product-info">
-            <p class="product-name">${product.name}</p>
-            <p class="product-category">${product.category}</p>
-            <div class="product-meta">
-              <span>${formatMoney(product.price)}</span>
-              <span>Stok ${product.stock}</span>
+      <main>
+        <section class="screen active" id="home">
+          <div class="hero-card">
+            <div>
+              <p class="hero-kicker">MVP Prototipe</p>
+              <h2>Belanja rutin tanpa ribet, cocok untuk pelanggan tetap.</h2>
+              <p>
+                Tiga jalur utama saja. Cepat dipahami, nyaman dipakai, dan terasa
+                seperti warung langganan yang naik kelas.
+              </p>
+            </div>
+            <div class="hero-badges">
+              <span>3 klik sampai pesan</span>
+              <span>Pesan & ambil</span>
+              <span>Paket hemat</span>
             </div>
           </div>
-          <button class="product-add" data-index="${index}">Tambah</button>
-        </div>
-      `;
-      })
-      .join('');
-  }
 
-  cartProduct.innerHTML = `
-    <option value="">Pilih barang</option>
-    ${state.products
-      .map(
-        (product, index) =>
-          `<option value="${index}">${product.name} - ${formatMoney(product.price)} - stok ${product.stock}</option>`
-      )
-      .join('')}
-  `;
-  renderKasirQuickList();
-}
+          <div class="main-actions">
+            <button class="action-card terracotta" data-nav-target="repeat">
+              <span class="action-icon">Ulang</span>
+              <strong>Belanja Seperti Biasa</strong>
+              <small>Ulang belanja rutin dalam sekali tekan.</small>
+            </button>
+            <button class="action-card turmeric" data-nav-target="paket">
+              <span class="action-icon">Paket</span>
+              <strong>Paket Hemat</strong>
+              <small>Pilih bundel dapur, bulanan, atau anak kos.</small>
+            </button>
+            <button class="action-card leaf" data-nav-target="pickup">
+              <span class="action-icon">Ambil</span>
+              <strong>Pesan & Ambil</strong>
+              <small>Pesan online, ambil saat lewat warung.</small>
+            </button>
+          </div>
+        </section>
 
-function renderKasirQuickList() {
-  if (!kasirQuickList) return;
-  kasirQuickList.innerHTML = state.products
-    .map(
-      (product, index) => `
-      <div class="product-card">
-        <div class="product-icon">${product.icon}</div>
-        <div class="product-info">
-          <p class="product-name">${product.name}</p>
-          <p class="product-category">${product.category}</p>
-        </div>
-        <button class="product-add" data-index="${index}">+</button>
-      </div>
-    `
-    )
-    .join('');
-}
+        <section class="screen" id="repeat">
+          <div class="screen-head">
+            <button class="back-link" data-nav-target="home">Kembali</button>
+            <div>
+              <p class="eyebrow">Fitur utama</p>
+              <h2>Belanja Seperti Biasa</h2>
+            </div>
+          </div>
 
-function renderCategoryFilters() {
-  const categories = ['Semua', ...new Set(state.products.map((product) => product.category))];
-  const filters = categories
-    .map(
-      (category) => `
-      <button class="category-chip ${state.categoryFilter === category ? 'active' : ''}" data-category="${category}">
-        ${category}
-      </button>
-    `
-    )
-    .join('');
-  document.getElementById('category-filters').innerHTML = filters;
-}
+          <div class="panel soft">
+            <p class="section-label">Pilih rutinitas</p>
+            <div class="routine-tabs">
+              <button class="tab active" data-routine="mingguan">Mingguan</button>
+              <button class="tab" data-routine="bulanan">Bulanan</button>
+              <button class="tab" data-routine="anak-kos">Anak Kos</button>
+            </div>
+          </div>
 
-function renderCart() {
-  if (state.cart.length === 0) {
-    cartContainer.innerHTML = '<p>Keranjang kosong.</p>';
-    totalPriceElement.textContent = 'Rp 0';
-    return;
-  }
+          <div class="routine-list" id="routine-list"></div>
 
-  const rows = state.cart
-    .map((item) => `
-      <tr>
-        <td>${item.name}</td>
-        <td>${item.quantity}</td>
-        <td>${formatMoney(item.subtotal)}</td>
-      </tr>
-    `)
-    .join('');
+          <div class="sticky-cta">
+            <div>
+              <strong id="repeat-summary">0 item dipilih</strong>
+              <p>Langsung lanjut tanpa cari-cari lagi.</p>
+            </div>
+            <button class="primary-btn" id="repeat-checkout">Lanjut Checkout</button>
+          </div>
+        </section>
 
-  cartContainer.innerHTML = `
-    <table>
-      <thead>
-        <tr><th>Barang</th><th>Jumlah</th><th>Subtotal</th></tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>
-  `;
+        <section class="screen" id="paket">
+          <div class="screen-head">
+            <button class="back-link" data-nav-target="home">Kembali</button>
+            <div>
+              <p class="eyebrow">Pilihan cepat</p>
+              <h2>Paket Hemat</h2>
+            </div>
+          </div>
 
-  const total = state.cart.reduce((sum, item) => sum + item.subtotal, 0);
-  totalPriceElement.textContent = formatMoney(total);
-}
+          <div class="bundle-grid" id="bundle-grid"></div>
+        </section>
 
-function renderHistory() {
-  if (state.history.length === 0) {
-    historyList.innerHTML = '<p>Belum ada transaksi.</p>';
-    return;
-  }
+        <section class="screen" id="pickup">
+          <div class="screen-head">
+            <button class="back-link" data-nav-target="home">Kembali</button>
+            <div>
+              <p class="eyebrow">Ambil di warung</p>
+              <h2>Pesan & Ambil</h2>
+            </div>
+          </div>
 
-  const rows = state.history
-    .map((tx) => `
-      <tr>
-        <td>${tx.date}</td>
-        <td>${tx.items}</td>
-        <td>${formatMoney(tx.total)}</td>
-      </tr>
-    `)
-    .join('');
+          <div class="panel">
+            <p class="section-label">Pilih waktu ambil</p>
+            <div class="slot-grid" id="slot-grid"></div>
+          </div>
 
-  historyList.innerHTML = `
-    <table>
-      <thead>
-        <tr><th>Tanggal</th><th>Isi Transaksi</th><th>Total</th></tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>
-  `;
-}
+          <div class="panel">
+            <p class="section-label">Catatan singkat</p>
+            <label class="field">
+              <span>Nama penerima</span>
+              <input id="pickup-name" type="text" value="Ibu Rina" />
+            </label>
+            <label class="field">
+              <span>Nomor WhatsApp</span>
+              <input id="pickup-phone" type="text" value="08xx-xxxx-7788" />
+            </label>
+            <label class="field">
+              <span>Pesan untuk warung</span>
+              <textarea id="pickup-note" rows="3">Titip gula 1 kg kalau ada promo.</textarea>
+            </label>
+          </div>
 
-productForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const name = productName.value.trim();
-  const price = Number(productPrice.value);
-  const stock = Number(productStock.value);
+          <button class="primary-btn full" id="pickup-checkout">Lanjut ke Checkout</button>
+        </section>
 
-  if (!name || price < 0 || stock < 0) return;
+        <section class="screen" id="checkout">
+          <div class="screen-head">
+            <button class="back-link" data-nav-target="home">Kembali</button>
+            <div>
+              <p class="eyebrow">Ringkas dan jelas</p>
+              <h2>Checkout</h2>
+            </div>
+          </div>
 
-  state.products.push({ name, price, stock });
-  productName.value = '';
-  productPrice.value = 0;
-  productStock.value = 1;
-  saveState();
-  renderProducts();
-});
+          <div class="panel checkout-card">
+            <div class="summary-row">
+              <span>Tipe pesanan</span>
+              <strong id="checkout-type">Belanja Seperti Biasa</strong>
+            </div>
+            <div class="summary-row">
+              <span>Isi pesanan</span>
+              <strong id="checkout-items">-</strong>
+            </div>
+            <div class="summary-row">
+              <span>Metode</span>
+              <strong id="checkout-method">Ambil di warung</strong>
+            </div>
+            <div class="summary-row">
+              <span>Waktu ambil</span>
+              <strong id="checkout-slot">Hari ini, 17.00</strong>
+            </div>
+            <div class="summary-row total">
+              <span>Perkiraan total</span>
+              <strong id="checkout-total">Rp0</strong>
+            </div>
+          </div>
 
-cartForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const index = Number(cartProduct.value);
-  const quantity = Number(cartQuantity.value);
+          <div class="panel">
+            <p class="section-label">Pembayaran</p>
+            <div class="pay-options">
+              <button class="pay-pill active">Bayar saat ambil</button>
+              <button class="pay-pill">Transfer</button>
+            </div>
+          </div>
 
-  if (Number.isNaN(index) || index < 0 || !state.products[index]) return;
-  if (quantity <= 0 || quantity > state.products[index].stock) {
-    alert('Jumlah tidak valid atau melebihi stok.');
-    return;
-  }
+          <button class="primary-btn full" id="place-order">Pesan Sekarang</button>
+        </section>
 
-  addProductToCart(index, quantity);
-});
+        <section class="screen" id="success">
+          <div class="success-card">
+            <p class="hero-kicker">Pesanan masuk</p>
+            <h2>Siap, pesanan sudah dicatat oleh Warung Amma Ika.</h2>
+            <p id="success-copy">
+              Ambil pesanan sesuai waktu yang dipilih. Notifikasi WhatsApp akan menyusul.
+            </p>
+            <button class="primary-btn" data-nav-target="home">Kembali ke Beranda</button>
+          </div>
+        </section>
 
-productList.addEventListener('click', (event) => {
-  const button = event.target.closest('.product-add');
-  if (!button) return;
-  const index = Number(button.dataset.index);
-  const product = state.products[index];
-  if (!product || product.stock <= 0) {
-    alert('Stok habis');
-    return;
-  }
-  addProductToCart(index, 1);
-});
+        <section class="screen" id="admin">
+          <div class="screen-head">
+            <button class="back-link" data-nav-target="home">Kembali</button>
+            <div>
+              <p class="eyebrow">Meja kerja warung</p>
+              <h2>Dasbor Admin</h2>
+            </div>
+          </div>
 
-if (kasirQuickList) {
-  kasirQuickList.addEventListener('click', (event) => {
-    const button = event.target.closest('.product-add');
-    if (!button) return;
-    const index = Number(button.dataset.index);
-    const product = state.products[index];
-    if (!product || product.stock <= 0) {
-      alert('Stok habis');
-      return;
-    }
-    addProductToCart(index, 1);
-  });
-}
+          <div class="admin-hero panel">
+            <div>
+              <p class="section-label">Ringkas hari ini</p>
+              <h3>Warung siap buka, pesanan rutin mulai masuk.</h3>
+              <p class="admin-subcopy">
+                Semua yang penting terlihat cepat, tanpa menu berlapis dan tanpa
+                tampilan seperti software kantor besar.
+              </p>
+            </div>
+            <button class="primary-btn admin-hero-btn">Cetak catatan pagi</button>
+          </div>
 
-function addProductToCart(index, quantity) {
-  const product = state.products[index];
-  const subtotal = product.price * quantity;
-  state.cart.push({ name: product.name, quantity, subtotal });
-  product.stock -= quantity;
-  cartQuantity.value = 1;
-  saveState();
-  renderProducts();
-  renderCart();
-}
+          <div class="admin-summary">
+            <article class="summary-chip">
+              <span>Pesanan masuk</span>
+              <strong>18</strong>
+              <small>6 siap diracik</small>
+            </article>
+            <article class="summary-chip">
+              <span>Ambil hari ini</span>
+              <strong>11</strong>
+              <small>Puncak jam 17.00</small>
+            </article>
+            <article class="summary-chip">
+              <span>Pelanggan tetap</span>
+              <strong>42</strong>
+              <small>12 pesan mingguan</small>
+            </article>
+          </div>
 
-checkoutButton.addEventListener('click', () => {
-  if (state.cart.length === 0) {
-    alert('Keranjang masih kosong.');
-    return;
-  }
+          <div class="admin-grid">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-label">Kelola pesanan</p>
+                  <h3>Pesanan masuk</h3>
+                </div>
+                <div class="admin-pills">
+                  <button class="mini-btn active">Baru</button>
+                  <button class="mini-btn">Siap</button>
+                  <button class="mini-btn">Selesai</button>
+                </div>
+              </div>
 
-  const total = state.cart.reduce((sum, item) => sum + item.subtotal, 0);
-  const items = state.cart.map((item) => `${item.name} x${item.quantity}`).join(', ');
-  const date = new Date().toLocaleString('id-ID');
+              <div class="order-card warm">
+                <div class="order-top">
+                  <div>
+                    <strong>Ibu Rina</strong>
+                    <span>Belanja Seperti Biasa</span>
+                  </div>
+                  <b>17.00</b>
+                </div>
+                <p>Beras 5 kg, minyak 2 L, telur, gula</p>
+                <div class="order-actions">
+                  <button class="mini-btn active">Sedang disiapkan</button>
+                  <button class="mini-btn">Hubungi</button>
+                </div>
+              </div>
 
-  state.history.unshift({ date, items, total });
-  state.cart = [];
-  saveState();
-  renderCart();
-  renderHistory();
-  alert(`Transaksi selesai. Total ${formatMoney(total)}.`);
-});
+              <div class="order-card">
+                <div class="order-top">
+                  <div>
+                    <strong>Fajar Kost</strong>
+                    <span>Paket Anak Kos</span>
+                  </div>
+                  <b>18.30</b>
+                </div>
+                <p>Tambah sambal sachet dan air galon kecil.</p>
+                <div class="order-actions">
+                  <button class="mini-btn">Siapkan</button>
+                  <button class="mini-btn">Hubungi</button>
+                </div>
+              </div>
+            </div>
 
-const tabButtons = document.querySelectorAll('.tab-button');
-const tabPanels = document.querySelectorAll('.tab-panel');
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-label">Produk & bundel</p>
+                  <h3>Yang sering dipilih</h3>
+                </div>
+                <button class="ghost-btn compact-btn">Tambah barang</button>
+              </div>
 
-function setActiveTab(tabId) {
-  tabPanels.forEach((panel) => {
-    panel.classList.toggle('active', panel.id === `tab-${tabId}`);
-  });
-  tabButtons.forEach((button) => {
-    button.classList.toggle('active', button.dataset.tab === tabId);
-  });
-}
+              <div class="stock-list">
+                <div class="stock-row">
+                  <div>
+                    <strong>Paket Dapur Mingguan</strong>
+                    <span>12 kali dipesan minggu ini</span>
+                  </div>
+                  <b>Aktif</b>
+                </div>
+                <div class="stock-row">
+                  <div>
+                    <strong>Beras Premium 5 kg</strong>
+                    <span>Stok tinggal 7, perlu isi ulang</span>
+                  </div>
+                  <b class="low">Rendah</b>
+                </div>
+                <div class="stock-row">
+                  <div>
+                    <strong>Paket Anak Kos</strong>
+                    <span>Harga pas, cepat laku saat malam</span>
+                  </div>
+                  <b>Favorit</b>
+                </div>
+              </div>
 
-tabButtons.forEach((button) => {
-  button.addEventListener('click', () => setActiveTab(button.dataset.tab));
-});
+              <div class="bundle-editor">
+                <p class="section-label">Atur paket cepat</p>
+                <div class="bundle-editor-row">
+                  <span>Paket Bulanan</span>
+                  <button class="mini-btn">Ubah isi</button>
+                </div>
+                <div class="bundle-editor-row">
+                  <span>Paket Anak Kos</span>
+                  <button class="mini-btn">Ubah harga</button>
+                </div>
+              </div>
+            </div>
 
-document.getElementById('product-search').addEventListener('input', (event) => {
-  state.searchQuery = event.target.value;
-  saveState();
-  renderProducts();
-});
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-label">Pelanggan tetap</p>
+                  <h3>Loyal customer</h3>
+                </div>
+                <button class="ghost-btn compact-btn">Catat pelanggan</button>
+              </div>
 
-document.getElementById('category-filters').addEventListener('click', (event) => {
-  const button = event.target.closest('.category-chip');
-  if (!button) return;
-  state.categoryFilter = button.dataset.category;
-  saveState();
-  renderProducts();
-});
+              <div class="customer-list">
+                <div class="customer-card">
+                  <div>
+                    <strong>Ibu Rina</strong>
+                    <span>Pesan rutin tiap Senin</span>
+                  </div>
+                  <small>28 pesanan</small>
+                </div>
+                <div class="customer-card">
+                  <div>
+                    <strong>Keluarga Pak Anwar</strong>
+                    <span>Sering ambil sore hari</span>
+                  </div>
+                  <small>15 pesanan</small>
+                </div>
+                <div class="customer-card">
+                  <div>
+                    <strong>Fajar Kost</strong>
+                    <span>Paket anak kos dan top up mingguan</span>
+                  </div>
+                  <small>9 pesanan</small>
+                </div>
+              </div>
 
-loadState();
-document.getElementById('product-search').value = state.searchQuery;
-renderProducts();
-renderCart();
-renderHistory();
-  </script>
-</body>
+              <div class="note-box">
+                <p class="section-label">Catatan warung</p>
+                <p>
+                  Pelanggan lama lebih sering pesan ulang kalau daftar belanja
+                  sebelumnya tampil paling atas.
+                </p>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-label">Laporan sederhana</p>
+                  <h3>Ringkasan warung</h3>
+                </div>
+                <div class="admin-pills">
+                  <button class="mini-btn active">Hari ini</button>
+                  <button class="mini-btn">Minggu ini</button>
+                </div>
+              </div>
+
+              <div class="report-stack">
+                <div class="report-row">
+                  <span>Penjualan hari ini</span>
+                  <strong>Rp1.280.000</strong>
+                </div>
+                <div class="report-row">
+                  <span>Repeat order</span>
+                  <strong>63%</strong>
+                </div>
+                <div class="report-row">
+                  <span>Paket hemat terjual</span>
+                  <strong>14 paket</strong>
+                </div>
+              </div>
+
+              <div class="report-bars">
+                <div class="bar-item">
+                  <span>Repeat Order</span>
+                  <div class="bar-track"><i style="width: 63%"></i></div>
+                </div>
+                <div class="bar-item">
+                  <span>Paket Hemat</span>
+                  <div class="bar-track"><i style="width: 48%"></i></div>
+                </div>
+                <div class="bar-item">
+                  <span>Pesan & Ambil</span>
+                  <div class="bar-track"><i style="width: 72%"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
 </html>
