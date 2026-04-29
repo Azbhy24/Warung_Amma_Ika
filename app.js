@@ -44,6 +44,8 @@ const bundles = [
     items: 8,
     price: 145000,
     tone: "terracotta",
+    image:
+      "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=80",
   },
   {
     name: "Paket Bulanan",
@@ -51,6 +53,8 @@ const bundles = [
     items: 12,
     price: 318000,
     tone: "turmeric",
+    image:
+      "https://images.unsplash.com/photo-1579113800032-c38bd7635818?auto=format&fit=crop&w=900&q=80",
   },
   {
     name: "Paket Anak Kos",
@@ -58,6 +62,8 @@ const bundles = [
     items: 7,
     price: 69000,
     tone: "leaf",
+    image:
+      "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
@@ -152,6 +158,7 @@ function renderBundles() {
     .map(
       (bundle, index) => `
         <article class="bundle-card ${bundle.tone}">
+          <img src="${bundle.image}" alt="${bundle.name}" />
           <strong>${bundle.name}</strong>
           <small>${bundle.desc}</small>
           <p>${bundle.items} produk pilihan keluarga warung.</p>
