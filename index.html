@@ -9,31 +9,138 @@
   <body>
     <header class="site-header">
       <div class="container">
-        <p class="eyebrow">Warung dekat rumah</p>
-        <h1>Warung Amma Ika</h1>
-        <p class="subtitle">
-          Belanja mudah, dekat, dan cepat
-        </p>
+        <div class="brand-bar">
+          <div class="brand-main">
+            <img class="brand-logo" src="./logo-amma-ika.png" alt="Logo Warung Amma Ika" />
+            <div class="brand-copy">
+              <p class="eyebrow">Warung digital dekat rumah</p>
+              <h1>Warung Amma Ika</h1>
+              <p class="subtitle">Belanja mudah langsung ke WhatsApp</p>
+            </div>
+          </div>
+          <div class="brand-chip">Siap pesan cepat</div>
+        </div>
       </div>
     </header>
 
     <main class="container">
       <section class="intro-card">
         <div>
-          <h2>Daftar Produk</h2>
+          <h2>Belanja harian lebih praktis</h2>
           <p>
-            Klik tombol hijau pada produk yang Anda inginkan. Pesan otomatis akan
-            langsung terbuka di WhatsApp dengan jumlah awal 1.
+            Pilih produk warung, masukkan ke keranjang, lalu kirim semua pesanan
+            sekaligus ke WhatsApp dalam satu langkah yang rapi.
           </p>
         </div>
         <div class="contact-box">
-          <span>WhatsApp Warung</span>
+          <span>Layanan cepat</span>
           <strong>085298585059</strong>
-          <small>Bisa pesan cepat untuk kebutuhan rumah sehari-hari.</small>
+          <small>Bisa pesan kebutuhan rumah, diantar sekitar lokasi, dan cocok untuk belanja cepat.</small>
         </div>
       </section>
 
-      <section class="product-grid" id="product-list"></section>
+      <section class="shop-layout">
+        <section class="product-section">
+          <div class="section-head">
+            <h2>Produk Warung</h2>
+            <p>Pilih barang yang ingin dibeli lalu tambah ke keranjang.</p>
+          </div>
+          <section class="add-product-panel">
+            <div class="section-head">
+              <h2>Tambah Produk</h2>
+              <p>Owner bisa menambah produk dan foto tanpa edit kode manual.</p>
+            </div>
+
+            <form class="product-form" id="product-form">
+              <label class="form-field">
+                <span>Nama produk</span>
+                <input id="product-name" type="text" placeholder="Contoh: Susu UHT" required />
+              </label>
+
+              <label class="form-field">
+                <span>Harga</span>
+                <input id="product-price" type="text" placeholder="Contoh: Rp 8.000" required />
+              </label>
+
+              <label class="form-field">
+                <span>Kategori</span>
+                <select id="product-category" required>
+                  <option value="Sembako">Sembako</option>
+                  <option value="Makanan">Makanan</option>
+                  <option value="Minuman">Minuman</option>
+                  <option value="Snack">Snack</option>
+                </select>
+              </label>
+
+              <label class="form-field">
+                <span>Upload gambar</span>
+                <input id="product-image-file" type="file" accept="image/*" />
+              </label>
+
+              <label class="form-field">
+                <span>Atau URL gambar</span>
+                <input id="product-image-url" type="url" placeholder="https://..." />
+              </label>
+
+              <div class="image-preview-box">
+                <span>Preview gambar</span>
+                <img
+                  id="image-preview"
+                  class="image-preview"
+                  src="https://placehold.co/600x450/eaf7ee/1f8f4d?text=Preview"
+                  alt="Preview gambar produk"
+                />
+              </div>
+
+              <button class="submit-product-btn" type="submit">Simpan Produk</button>
+            </form>
+          </section>
+
+          <div class="filter-panel">
+            <label class="search-box" for="search-input">
+              <span>Cari produk</span>
+              <input
+                id="search-input"
+                type="search"
+                placeholder="Ketik nama produk..."
+                autocomplete="off"
+              />
+            </label>
+            <div class="category-bar" id="category-bar">
+              <button class="category-btn active" data-category="Semua" type="button">Semua</button>
+              <button class="category-btn" data-category="Sembako" type="button">Sembako</button>
+              <button class="category-btn" data-category="Makanan" type="button">Makanan</button>
+              <button class="category-btn" data-category="Minuman" type="button">Minuman</button>
+              <button class="category-btn" data-category="Snack" type="button">Snack</button>
+            </div>
+          </div>
+          <section class="product-grid" id="product-list"></section>
+        </section>
+
+        <aside class="cart-card" id="cart-panel">
+          <div class="section-head">
+            <h2>Keranjang</h2>
+            <p id="cart-summary">Belum ada produk dipilih.</p>
+          </div>
+
+          <div class="cart-list" id="cart-list">
+            <p class="empty-cart">Keranjang masih kosong.</p>
+          </div>
+
+          <div class="cart-footer">
+            <div class="cart-total">
+              <span>Total item</span>
+              <strong id="cart-total">0</strong>
+            </div>
+            <div class="cart-total price-total">
+              <span>Total harga</span>
+              <strong id="cart-price-total">Rp 0</strong>
+            </div>
+            <button class="clear-btn" id="clear-cart" type="button">Kosongkan Keranjang</button>
+            <button class="checkout-btn" id="send-order" type="button">Pesan Sekarang</button>
+          </div>
+        </aside>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -46,6 +153,23 @@
         </div>
       </div>
     </footer>
+
+    <div class="sticky-checkout-bar" id="sticky-checkout-bar">
+      <div class="sticky-checkout-info">
+        <span id="sticky-item-count">0 item</span>
+        <strong id="sticky-total-price">Rp 0</strong>
+      </div>
+      <button class="sticky-checkout-btn" id="sticky-send-order" type="button" disabled>
+        PESAN
+      </button>
+    </div>
+
+    <button class="floating-cart" id="floating-cart" type="button" aria-label="Lihat keranjang">
+      <span class="floating-cart-icon">Keranjang</span>
+      <span class="floating-cart-badge" id="floating-cart-badge">0</span>
+    </button>
+
+    <div class="toast" id="toast">Produk ditambahkan</div>
 
     <script src="./script.js"></script>
   </body>
